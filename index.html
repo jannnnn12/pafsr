@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/landingpage.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="img/logo1.png">
+    <title>RetentionX</title>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="logo-container">
+           
+            <h1>RetentionX</h1>
+        </div>
+        <div class="nav">
+            <a href="php/login.php">Login</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="overlay"></div>
+        <div class="content">
+            <h1 id="typewriter-title"></h1>
+            <p id="typewriter-subtitle"></p>
+            <span class="typewriter-cursor" id="cursor"></span>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features">
+        <div class="feature-box" data-delay="100">
+            <h3>📊 Predictive Insights</h3>
+            <p>Identify students at risk of dropping out before it's too late with our AI-powered analytics platform.</p>
+        </div>
+        <div class="feature-box" data-delay="200">
+            <h3>🔍 Data-Driven Decisions</h3>
+            <p>Make informed decisions based on comprehensive student data analysis and proven retention strategies.</p>
+        </div>
+        <div class="feature-box" data-delay="300">
+            <h3>🔔 Automated Alerts</h3>
+            <p>Receive timely notifications when intervention is needed to support at-risk students effectively.</p>
+        </div>
+    </div>
+        
+    <!-- Call to Action -->
+    <div class="cta">
+        <h2>Improve Student Retention Today</h2>
+        <button><a href="php/login.php" style="text-decoration: none;color: black;font-weight: 500;">Get Started</a></button>
+    </div>
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 RetentionX. All rights reserved.</p>
+            <nav class="footer-nav">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Contact</a>
+            </nav>
+        </div>
+    </footer>
+    <!-- JavaScript for animations -->
+    <script>
+        // Typewriter effect - slowed down slightly for better readability
+        function typeWriter(element, text, speed, delay, callback) {
+            let i = 0;
+            setTimeout(() => {
+                element.textContent = ''; // Clear any existing content
+                const typing = setInterval(() => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(typing);
+                        if (callback) callback();
+                    }
+                }, speed);
+            }, delay);
+        }
+
+        // Scroll animation
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            return (
+                rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.bottom >= 0
+            );
+        }
+
+        function handleScrollAnimation() {
+            // Feature boxes animation - reduced delay between animations
+            document.querySelectorAll('.feature-box').forEach(box => {
+                if (isElementInViewport(box) && !box.classList.contains('visible')) {
+                    setTimeout(() => {
+                        box.classList.add('visible');
+                    }, parseInt(box.getAttribute('data-delay')) || 0);
+                }
+            });
+            
+            // CTA animation
+            const cta = document.querySelector('.cta');
+            if (isElementInViewport(cta) && !cta.classList.contains('visible')) {
+                cta.classList.add('visible');
+            }
+        }
+
+        // Initialize animations when page is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start typewriter animation - slightly slower typing speed
+            const title = document.getElementById('typewriter-title');
+            const subtitle = document.getElementById('typewriter-subtitle');
+            const cursor = document.getElementById('cursor');
+            
+            typeWriter(title, 'RetentionX', 120, 600, () => {
+                setTimeout(() => {
+                    typeWriter(subtitle, 'Empowering student success through predictive analytics', 40, 0, () => {
+                        // Move cursor after subtitle
+                        subtitle.parentNode.insertBefore(cursor, subtitle.nextSibling);
+                        
+                        // Hide cursor after a short delay once typing is complete
+                        setTimeout(() => {
+                            cursor.classList.add('hidden');
+                        }, 1500); // Waits 1.5 seconds after typing is complete before hiding
+                    });
+                }, 300);
+            });
+            
+            // Handle scroll animations
+            handleScrollAnimation();
+            window.addEventListener('scroll', handleScrollAnimation);
+        });
+    </script>
+</body>
+</html>
